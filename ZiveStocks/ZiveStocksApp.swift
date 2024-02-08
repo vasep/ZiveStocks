@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct ZiveStocksApp: App {
@@ -13,5 +14,6 @@ struct ZiveStocksApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for:[Stock.self])
     }
 }

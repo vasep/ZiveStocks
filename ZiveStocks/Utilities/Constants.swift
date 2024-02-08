@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct Constants {
+    static let stocksURL = "https://financialmodelingprep.com/api/v3/stock-screener?marketCapMoreThan=1000000000&volumeMoreThan=10000&sector=Technology&exchange=NASDAQ&limit=100&apikey=YUPBWcET4AJF2uqQ7uA4hkXd3EI6WWzd"
+    static let newsURL = "https://financialmodelingprep.com/api/v3/stock_news?limit=1000&apikey=YUPBWcET4AJF2uqQ7uA4hkXd3EI6WWzd"
+}

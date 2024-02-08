@@ -6,13 +6,45 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavouriteStocksView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+//    
+//    @Environment(\.modelContext) var context
+//    @Query var stocks: [Stock]
+    @State var viewModel: StocksListViewModel
 
-#Preview {
-    FavouriteStocksView()
+    init(modelContext: StocksDataModelService) {
+        viewModel = StocksListViewModel(stocksData: modelContext)
+    }
+    
+    var body: some View {
+        NavigationStack {
+            List{
+                ForEach(viewModel.savedStocks, id: \.self) { stock in
+                    Text("\(stock.symbol ?? "")")
+                }
+                .onDelete(perform: { indexSet in
+                    for index in indexSet {
+                        viewModel.removeStock(stock: viewModel.savedStocks[index])
+                    }
+                })
+            }
+            
+            .navigationTitle("Favourite")
+            .navigationBarTitleDisplayMode(.large)
+            .onAppear{
+                viewModel.fetchAllStocks()
+            }
+            .overlay {
+                if viewModel.savedStocks.isEmpty {
+                    ContentUnavailableView(label:{
+                        Label("No Favourite Stocks",systemImage: "x.square")
+                    },description:{
+                    } , actions: {})
+                    .offset(y:-60)
+                }
+            }
+        }
+    }
 }

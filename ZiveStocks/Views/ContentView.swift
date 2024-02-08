@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) var context
+
     var body: some View {
         TabView{
-            StocksListView()
+            StocksListView(service: StocksAPIClient.shared, modelContext: DataModelController(modelContext: context))
                 .tabItem {
                     Label("Stocks", systemImage: "list.bullet")
                 }
-            FavouriteStocksView()
+            FavouriteStocksView(modelContext: DataModelController(modelContext: context))
                 .tabItem {
                     Label("Favorites", systemImage: "star.fill")
                 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol StocksFetchingService {
-    func fetchStocks(completion: @escaping (Result<Stocks, Error>) -> Void)
+    func fetchStocks(completion: @escaping (Result<[Stock], Error>) -> Void)
 }
