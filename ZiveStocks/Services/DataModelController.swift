@@ -28,8 +28,8 @@ class DataModelController: StocksDataModelService{
     func getAllStocks()->[Stock] {
         do {
             let descriptor = FetchDescriptor<Stock>(sortBy: [SortDescriptor(\.marketCap)])
-            let movies = try modelContext.fetch(descriptor)
-            return movies
+            let stocks = try modelContext.fetch(descriptor)
+            return stocks
         } catch {
             print("Fetch failed")
         }

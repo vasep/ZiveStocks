@@ -15,11 +15,13 @@ enum SortOption {
 @Observable
 class StocksListViewModel: ObservableObject {
     
-    var stocks: [Stock] = []
+    var allStocks: [Stock] = []
     var savedStocks: [Stock] = []
     var filteredStocks: [Stock] = []
     var errorMessage: String?
     var searchText = ""
+    var isLoading: Bool = false
+    
     var uniqueCountryCodes: [String?] = []
     var selectedCountryCode: String? {
         didSet {
@@ -52,11 +54,11 @@ class StocksListViewModel: ObservableObject {
       }
     
     func searchStocks() {
-        filteredStocks = searchText.isEmpty ? stocks : stocks.filter { ($0.companyName ?? "").contains(searchText) }
+        filteredStocks = searchText.isEmpty ? allStocks : allStocks.filter { ($0.companyName ?? "").contains(searchText) }
       }
     
     func filterStocks() {
-        filteredStocks = selectedCountryCode == nil ? stocks : stocks.filter { $0.country == selectedCountryCode }
+        filteredStocks = selectedCountryCode == nil ? allStocks : allStocks.filter { $0.country == selectedCountryCode }
     }
 
     
@@ -68,7 +70,7 @@ class StocksListViewModel: ObservableObject {
     }
     
     func extractUniqueCountryCodes() {
-        uniqueCountryCodes = Set(stocks.compactMap { $0.country }).sorted()
+        uniqueCountryCodes = Set(allStocks.compactMap { $0.country }).sorted()
     }
 
     // Caching
@@ -86,12 +88,14 @@ class StocksListViewModel: ObservableObject {
     
     // Networking
     func loadStocks() {
+        isLoading = true
         service?.fetchStocks { [weak self] result in
             DispatchQueue.main.async {
+                self?.isLoading = false
                 switch result {
                 case .success(let stocksData):
-                    self?.stocks = stocksData
-                    self?.filteredStocks = self?.stocks ?? []
+                    self?.allStocks = stocksData
+                    self?.filteredStocks = self?.allStocks ?? []
                     self?.extractUniqueCountryCodes()
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription

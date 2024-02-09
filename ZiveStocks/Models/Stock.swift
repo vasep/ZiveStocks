@@ -7,7 +7,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Stock : Codable, Identifiable {
+class Stock : Codable, Identifiable, Hashable {
     let id: UUID = UUID()
     let symbol : String?
     let companyName : String?
