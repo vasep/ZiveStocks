@@ -22,10 +22,12 @@
 		663398B72B6E76E50074CE68 /* MockStocksServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398B62B6E76E50074CE68 /* MockStocksServices.swift */; };
 		663398CB2B72C8FA0074CE68 /* DataModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398CA2B72C8FA0074CE68 /* DataModelController.swift */; };
 		663398CD2B72C92B0074CE68 /* StocksDataModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398CC2B72C92B0074CE68 /* StocksDataModelService.swift */; };
-		663398CF2B7379FA0074CE68 /* StockListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398CE2B7379FA0074CE68 /* StockListItem.swift */; };
+		663398CF2B7379FA0074CE68 /* StockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398CE2B7379FA0074CE68 /* StockView.swift */; };
 		663398D22B739B710074CE68 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398D12B739B710074CE68 /* Int+Extension.swift */; };
 		663398D42B739F120074CE68 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398D32B739F120074CE68 /* String+Extension.swift */; };
 		663398DC2B7508B30074CE68 /* Float+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663398DB2B7508B30074CE68 /* Float+Extension.swift */; };
+		EE4A14302B779B1A00154B4D /* StockFavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4A142F2B779B1A00154B4D /* StockFavoriteViewModel.swift */; };
+		EE4A14332B77A1E500154B4D /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = EE4A14322B77A1E500154B4D /* Algorithms */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,10 +47,11 @@
 		663398B62B6E76E50074CE68 /* MockStocksServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStocksServices.swift; sourceTree = "<group>"; };
 		663398CA2B72C8FA0074CE68 /* DataModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModelController.swift; sourceTree = "<group>"; };
 		663398CC2B72C92B0074CE68 /* StocksDataModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataModelService.swift; sourceTree = "<group>"; };
-		663398CE2B7379FA0074CE68 /* StockListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListItem.swift; sourceTree = "<group>"; };
+		663398CE2B7379FA0074CE68 /* StockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockView.swift; sourceTree = "<group>"; };
 		663398D12B739B710074CE68 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		663398D32B739F120074CE68 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		663398DB2B7508B30074CE68 /* Float+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extension.swift"; sourceTree = "<group>"; };
+		EE4A142F2B779B1A00154B4D /* StockFavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockFavoriteViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE4A14332B77A1E500154B4D /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +114,7 @@
 				661EC8192B6E5C72000EC0B4 /* FavouriteStocksView.swift */,
 				661EC8172B6E5C56000EC0B4 /* StocksListView.swift */,
 				661EC80B2B6E593B000EC0B4 /* ContentView.swift */,
-				663398CE2B7379FA0074CE68 /* StockListItem.swift */,
+				663398CE2B7379FA0074CE68 /* StockView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -162,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				661EC82C2B6E6E1B000EC0B4 /* StockListViewModel.swift */,
+				EE4A142F2B779B1A00154B4D /* StockFavoriteViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -192,6 +197,9 @@
 			dependencies = (
 			);
 			name = ZiveStocks;
+			packageProductDependencies = (
+				EE4A14322B77A1E500154B4D /* Algorithms */,
+			);
 			productName = ZiveStocks;
 			productReference = 661EC8062B6E593B000EC0B4 /* ZiveStocks.app */;
 			productType = "com.apple.product-type.application";
@@ -220,6 +228,9 @@
 				Base,
 			);
 			mainGroup = 661EC7FD2B6E593B000EC0B4;
+			packageReferences = (
+				EE4A14312B77A1E500154B4D /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+			);
 			productRefGroup = 661EC8072B6E593B000EC0B4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -259,10 +270,11 @@
 				663398B72B6E76E50074CE68 /* MockStocksServices.swift in Sources */,
 				661EC81A2B6E5C72000EC0B4 /* FavouriteStocksView.swift in Sources */,
 				663398CD2B72C92B0074CE68 /* StocksDataModelService.swift in Sources */,
+				EE4A14302B779B1A00154B4D /* StockFavoriteViewModel.swift in Sources */,
 				663398B52B6E74210074CE68 /* StockRowView.swift in Sources */,
 				661EC82D2B6E6E1B000EC0B4 /* StockListViewModel.swift in Sources */,
 				663398DC2B7508B30074CE68 /* Float+Extension.swift in Sources */,
-				663398CF2B7379FA0074CE68 /* StockListItem.swift in Sources */,
+				663398CF2B7379FA0074CE68 /* StockView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +478,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EE4A14312B77A1E500154B4D /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EE4A14322B77A1E500154B4D /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE4A14312B77A1E500154B4D /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 661EC7FE2B6E593B000EC0B4 /* Project object */;
 }

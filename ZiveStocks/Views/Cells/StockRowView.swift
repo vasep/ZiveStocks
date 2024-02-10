@@ -10,15 +10,23 @@ import SwiftUI
 struct StockRowView: View {
     
     let stock: Stock
-    var isFavorite: Bool
-    var onFavoriteToggle: () -> Void
+    var isFavorite: Bool? = false
+    var onFavoriteToggle: (() -> Void)? = nil
     
     var body: some View {
         HStack {
             stockInfo
-            Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
+//            Spacer()
             priceAndMarketCap
-            favoriteButton
+            if let isFavorite, let onFavoriteToggle {
+                Button(action: onFavoriteToggle) {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .foregroundColor(isFavorite ? .yellow : .gray)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .padding(.leading, 8)
+            }
         }
     }
     
@@ -44,24 +52,12 @@ struct StockRowView: View {
             Text(stock.symbol ?? "N/A")
                 .font(.subheadline)
                 .foregroundColor(.gray)
-
+            
             if let companyName = stock.companyName {
-                ForEach(companyName.splitIntoLines(withWordLimit: 2), id: \.self) { line in
-                    Text(line)
-                        .font(.subheadline)
-                        .lineLimit(1)
-                }
+                Text(companyName)
+                    .font(.subheadline)
             }
         }
-        .layoutPriority(1)
     }
     
-    private var favoriteButton: some View {
-        Button(action: onFavoriteToggle) {
-            Image(systemName: isFavorite ? "star.fill" : "star")
-                .foregroundColor(isFavorite ? .yellow : .gray)
-        }
-        .buttonStyle(BorderlessButtonStyle())
-        .padding(.leading, 8)
-    }
 }

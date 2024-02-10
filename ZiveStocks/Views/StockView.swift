@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StockListItem: View {
+struct StockView: View {
     
     var stock: Stock
     
@@ -44,5 +44,5 @@ struct StockListItem: View {
 #Preview {
     let stock = Stock(id: UUID(), symbol: "AAPL", companyName: "Apple Inc.", marketCap: 1000000000, sector: "Technology", industry: "Consumer Electronics", beta: 1.2, price: 150.00, lastAnnualDividend: 0.82, volume: 100000, exchange: "NASDAQ", exchangeShortName: "NAS", country: "USA", isEtf: false, isActivelyTrading: true)
     
-    return StockListItem(stock: stock)
+    return StockView(stock: stock)
 }

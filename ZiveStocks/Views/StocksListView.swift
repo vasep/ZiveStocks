@@ -9,31 +9,28 @@ import SwiftUI
 import SwiftData
 
 struct StocksListView: View {
-    
+    @Environment(StockFavoriteViewModel.self) private var favoritesViewModel
     @State var viewModel: StocksListViewModel
     
-    init(service: StocksFetchingService, modelContext: StocksDataModelService) {
-        self.viewModel = StocksListViewModel(service: service, stocksData: modelContext)
+    init(service: StocksFetchingService) {
+        self.viewModel = StocksListViewModel(service: service)
     }
     
     var body: some View {
         NavigationStack {
-            List{
-                ForEach(viewModel.filteredStocks) { stock in
-                    NavigationLink(value: stock) {
-                        StockRowView(stock: stock,isFavorite: viewModel.savedStocks.contains { $0.symbol == stock.symbol }, onFavoriteToggle: {
-                            
-                            viewModel.toggledSave(stock: stock)
-                        })
+            List(viewModel.filteredStocks) { stock in
+                NavigationLink(value: stock) {
+                    StockRowView(stock: stock,isFavorite: favoritesViewModel.isFavorite(stock)) {
+                        favoritesViewModel.toggleSave(stock: stock)
                     }
                 }
             }
+            .searchable(text: $viewModel.searchText, placement: .toolbar)
             .navigationDestination(for: Stock.self) { stock in
-                StockListItem(stock: stock)
+                StockView(stock: stock)
             }
             .onAppear {
-                viewModel.loadStocks()
-                viewModel.fetchAllStocks()
+                viewModel.fetchStocks()
             }
             .toolbar { toolbarContent() }
             .overlay(loadingOverlay)
@@ -43,7 +40,6 @@ struct StocksListView: View {
     @ToolbarContentBuilder
        private func toolbarContent() -> some ToolbarContent {
            ToolbarItemGroup(placement: .navigationBarTrailing) {
-               searchField
                filterMenu
                sortMenu
            }
@@ -60,16 +56,22 @@ struct StocksListView: View {
 
        private var filterMenu: some View {
            Menu {
-               ForEach(viewModel.uniqueCountryCodes.compactMap { $0 }, id: \.self) { item in
-                   Button(item) {
-                       viewModel.selectedCountryCode = item
+               Picker(selection: $viewModel.selectedCountryCode) {
+                   ForEach(viewModel.uniqueCountryCodes, id: \.self) { item in
+                       Text(item)
+                           .tag(item)
                    }
-               }
-               Button("Clear Filter") {
-                   viewModel.selectedCountryCode = nil
+                   
+                   Text("All")
+                       .tag("")
+               } label: {
+                   EmptyView()
                }
            } label: {
                Label("Filter", systemImage: "list.bullet")
+           }
+           .onChange(of: viewModel.selectedCountryCode) {
+               viewModel.filterStocks()
            }
        }
 
@@ -100,9 +102,4 @@ struct StocksListView: View {
             .offset(y: -60)
         }
     }
-
 }
-
-//#Preview {
-//    StocksListView(service: MockStocksServices(), modelContext: DataMock())
-//}

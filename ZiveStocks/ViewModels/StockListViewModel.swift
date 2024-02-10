@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import Algorithms
 
 enum SortOption {
     case alphabetically, marketCap
@@ -16,31 +17,22 @@ enum SortOption {
 class StocksListViewModel: ObservableObject {
     
     var allStocks: [Stock] = []
-    var savedStocks: [Stock] = []
     var filteredStocks: [Stock] = []
     var errorMessage: String?
-    var searchText = ""
-    var isLoading: Bool = false
-    
-    var uniqueCountryCodes: [String?] = []
-    var selectedCountryCode: String? {
+    var searchText = "" {
         didSet {
-            filterStocks()
+            searchStocks()
         }
     }
+    var isLoading: Bool = false
+    
+    var uniqueCountryCodes: [String] = []
+    var selectedCountryCode: String = ""
         
     private let service: StocksFetchingService?
-    private let dataModelService : StocksDataModelService
     
-    init(service: StocksFetchingService? = nil, stocksData:StocksDataModelService) {
+    init(service: StocksFetchingService? = nil) {
         self.service = service
-        self.dataModelService = stocksData
-        fetchAllStocks()
-    }
-    
-    func saveStock(stock: Stock) {
-        dataModelService.saveStock(stock: stock)
-        fetchAllStocks()
     }
     
     // Filter and Sort
@@ -58,36 +50,16 @@ class StocksListViewModel: ObservableObject {
       }
     
     func filterStocks() {
-        filteredStocks = selectedCountryCode == nil ? allStocks : allStocks.filter { $0.country == selectedCountryCode }
+        filteredStocks = selectedCountryCode.isEmpty ? allStocks : allStocks.filter { $0.country == selectedCountryCode }
     }
 
-    
-    func removeStock(stock: Stock) {
-        if let index = savedStocks.firstIndex(where: { $0.symbol == stock.symbol }) {
-            dataModelService.deleteStock(stock: savedStocks[index])
-                 fetchAllStocks()
-             }
-    }
     
     func extractUniqueCountryCodes() {
-        uniqueCountryCodes = Set(allStocks.compactMap { $0.country }).sorted()
+        uniqueCountryCodes = Array(allStocks.compactMap({ $0.country }).uniqued())
     }
 
-    // Caching
-    func fetchAllStocks() {
-        savedStocks = dataModelService.getAllStocks()
-    }
-    
-    func toggledSave(stock: Stock) {
-        if savedStocks.contains(where: { $0.symbol == stock.symbol }) {
-            removeStock(stock: stock)
-        } else {
-            saveStock(stock: stock)
-        }
-    }
-    
     // Networking
-    func loadStocks() {
+    func fetchStocks() {
         isLoading = true
         service?.fetchStocks { [weak self] result in
             DispatchQueue.main.async {
